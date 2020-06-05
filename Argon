@@ -1,0 +1,55 @@
+#include <Wire.h>
+
+#define Address 0x05
+
+int led1 = D7;   
+
+bool motion = false;
+int recive = 0;
+int getlight = A0;
+int value;
+int led =D5;
+
+
+
+void setup () {
+    pinMode(led1, OUTPUT);
+    pinMode(led, OUTPUT);
+    
+    Wire.begin(Address);
+    Wire.onReceive(receive_Pi3);
+    Particle.variable("recive", &recive, INT); 
+
+    
+}
+
+// receive_Pi3
+void receive_Pi3(int rec){
+
+    value = Wire.read();
+}
+
+
+void loop(){
+    digitalWrite(led1, HIGH);   
+    
+    recive = analogRead(getlight);
+    
+    if (value==1){  
+        digitalWrite(led, HIGH);
+      
+        
+        motion  = true;
+        value=0;
+    }else{
+        digitalWrite(led, LOW);
+        }
+   
+
+    
+    delay(10000);                 
+    digitalWrite(led1, LOW);
+   
+    
+}
+
